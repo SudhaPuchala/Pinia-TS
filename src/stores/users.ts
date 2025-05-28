@@ -9,7 +9,8 @@ export const useUserStore = defineStore('users', {
 
   actions: {
     generateId(): string {
-      return Math.random().toString(36).substr(2, 9)
+      const id: string = Math.random().toString(36).slice(2, 11)
+  return id
     },
 
     create(user: UserInput) {
@@ -17,9 +18,7 @@ export const useUserStore = defineStore('users', {
       this.users.push({ ...user, id })
     },
 
-    delete(id: string) {
-      this.users = this.users.filter((user: User) => user.id !== id)
-    }
+  
   },
 
   getters: {
