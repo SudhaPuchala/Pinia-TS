@@ -17,7 +17,6 @@ export const useUserStore = defineStore('users', {
       const id = this.generateId()
       this.users.push({ ...user, id })
     },
-
   
   },
 
