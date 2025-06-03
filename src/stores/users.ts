@@ -1,27 +1,28 @@
 
 import { defineStore } from 'pinia'
-import type { User, UserInput } from './types'
+import { computed, ref } from 'vue'
+import type { User, UserInput } from '../types'
 
-export const useUserStore = defineStore('users', {
-  state: () => ({
-    users: [] as User[]
-  }),
+export const useUserStore = defineStore('users', () => {
+  const users = ref<User[]>([])
 
-  actions: {
-    generateId(): string {
-      const id: string = Math.random().toString(36).slice(2, 11)
-  return id
-    },
+  function generateId(): string {
+    return Math.random().toString(36).slice(2, 11)
+  }
 
-    create(user: UserInput) {
-      const id = this.generateId()
-      this.users.push({ ...user, id })
-    },
-  
-  },
+  function create(user: UserInput) {
+    const id = generateId()
+    users.value.push({ ...user, id })
+  }
 
-  getters: {
-    usersByName: (state): User[] =>
-      [...state.users].sort((a, b) => a.name.localeCompare(b.name))
+  const usersByName = computed(() =>
+    [...users.value].sort((a, b) => a.name.localeCompare(b.name))
+  )
+
+  return {
+    users,
+    create,
+    generateId,
+    usersByName
   }
 })
